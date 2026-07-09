@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ApiLanchonete.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260709161706_InitialCreate")]
+    [Migration("20260709162612_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -52,8 +52,8 @@ namespace ApiLanchonete.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Price")
-                        .HasColumnType("float");
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("ProductId");
 
