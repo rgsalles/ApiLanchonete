@@ -1,6 +1,0 @@
-@ApiLanchonete_HostAddress = http://localhost:5015
-
-GET {{ApiLanchonete_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
