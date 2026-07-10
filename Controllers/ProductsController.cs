@@ -15,6 +15,17 @@ public class ProductsController(AppDbContext context) : ControllerBase
         return await context.Products.ToListAsync();
     }
 
+    [HttpGet("{id}")]
+    public async Task<ActionResult<Product>> GetProduct(Guid id)
+    {
+        var product = await context.Products.FindAsync(id);
+        if (product == null)
+        {
+            return NotFound();
+        }
+        return product;
+    }
+
     [HttpPost]
     public async Task<ActionResult<Product>> CreateProduct(Product product)
     {
@@ -22,5 +33,7 @@ public class ProductsController(AppDbContext context) : ControllerBase
         await context.SaveChangesAsync();
         return CreatedAtAction(nameof(GetProducts), new { id = product.Id }, product);
     }
+
+
 
 }
