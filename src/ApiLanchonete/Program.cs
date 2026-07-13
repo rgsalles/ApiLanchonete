@@ -24,3 +24,6 @@ app.UseHttpsRedirection();
 app.MapControllers();
 
 app.Run();
+
+// Permite que o projeto de testes inicialize a aplicacao completa.
+public partial class Program;
