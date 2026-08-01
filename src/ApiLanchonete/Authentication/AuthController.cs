@@ -14,7 +14,7 @@ public class AuthController(AuthService authService) : ControllerBase
         var response = await authService.Register(dto);
 
         if (response is null)
-            return Unauthorized(new { Message = "There is already a user registered with this e-mail." });
+            return Conflict(new { Message = "There is already a user registered with this e-mail." });
         return Ok(response);
     }
 
