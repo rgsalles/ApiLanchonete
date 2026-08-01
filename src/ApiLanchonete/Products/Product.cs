@@ -10,4 +10,8 @@ public class Product
     public bool Active { get; set; }
     public DateTime? AvailableFrom { get; set; }
     public DateTime? AvailableUntil { get; set; }
+    public DateTime CreatedAt { get; set; }
+    public string? CreatedBy { get; set; }
+    public DateTime? UpdatedAt { get; set; }
+    public string? UpdatedBy { get; set; }
 }

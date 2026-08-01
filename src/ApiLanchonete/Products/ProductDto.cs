@@ -3,32 +3,36 @@ namespace ApiLanchonete.Products;
 public class ProductDto
 {
     public Guid Id { get; set; }
-    public string Name { get; set; } = string.Empty;
+    public required string Name { get; set; }
     public decimal Price { get; set; }
-    public string Description { get; set; } = string.Empty;
-    public string Image { get; set; } = string.Empty;
+    public required string Description { get; set; }
+    public required string Image { get; set; }
     public bool Active { get; set; }
     public DateTime? AvailableFrom { get; set; }
     public DateTime? AvailableUntil { get; set; }
+    public DateTime CreatedAt { get; set; }
+    public string? CreatedBy { get; set; }
+    public DateTime? UpdatedAt { get; set; }
+    public string? UpdatedBy { get; set; }
 }
 
 public class CreateProductDto
 {
-    public string Name { get; set; } = string.Empty;
+    public required string Name { get; set; }
     public decimal Price { get; set; }
-    public string Description { get; set; } = string.Empty;
-    public string Image { get; set; } = string.Empty;
+    public required string Description { get; set; }
+    public required string Image { get; set; }
     public DateTime? AvailableFrom { get; set; }
     public DateTime? AvailableUntil { get; set; }
 }
 
 public class UpdateProductDto
 {
-    public string Name { get; set; } = string.Empty;
+    public required string Name { get; set; }
     public decimal Price { get; set; }
     public bool Active { get; set; }
-    public string Description { get; set; } = string.Empty;
-    public string Image { get; set; } = string.Empty;
+    public required string Description { get; set; }
+    public required string Image { get; set; }
     public DateTime? AvailableFrom { get; set; }
     public DateTime? AvailableUntil { get; set; }
 }

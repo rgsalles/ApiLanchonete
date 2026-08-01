@@ -6,7 +6,7 @@ namespace ApiLanchonete.Products;
 
 [ApiController]
 [Route("api/[controller]")]
-public class ProductsController(AppDbContext context) : ControllerBase
+public class ProductController(AppDbContext context) : ControllerBase
 {
     [HttpGet]
     public async Task<ActionResult<List<ProductDto>>> GetProducts()

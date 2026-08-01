@@ -1,5 +1,4 @@
 ﻿using ApiLanchonete.Data;
-using ApiLanchonete.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace ApiLanchonete.Products;
@@ -18,7 +17,11 @@ public class ProductService(AppDbContext context) : IProductService
                 Image = p.Image,
                 Active = p.Active,
                 AvailableFrom = p.AvailableFrom,
-                AvailableUntil = p.AvailableUntil
+                AvailableUntil = p.AvailableUntil,
+                CreatedAt = p.CreatedAt,
+                CreatedBy = p.CreatedBy,
+                UpdatedAt = p.UpdatedAt,
+                UpdatedBy = p.UpdatedBy
             })
             .ToListAsync();
     }
@@ -39,7 +42,11 @@ public class ProductService(AppDbContext context) : IProductService
             Image = product.Image,
             Active = product.Active,
             AvailableFrom = product.AvailableFrom,
-            AvailableUntil = product.AvailableUntil
+            AvailableUntil = product.AvailableUntil,
+            CreatedAt = product.CreatedAt,
+            CreatedBy = product.CreatedBy,
+            UpdatedAt = product.UpdatedAt,
+            UpdatedBy = product.UpdatedBy
         };
     }
 
@@ -54,7 +61,10 @@ public class ProductService(AppDbContext context) : IProductService
             Image = dto.Image,
             Active = true,
             AvailableFrom = dto.AvailableFrom,
-            AvailableUntil = dto.AvailableUntil
+            AvailableUntil = dto.AvailableUntil,
+
+            CreatedAt = DateTime.UtcNow,
+            CreatedBy = "System"
         };
 
         context.Products.Add(product);
@@ -69,7 +79,11 @@ public class ProductService(AppDbContext context) : IProductService
             Image = product.Image,
             Active = product.Active,
             AvailableFrom = product.AvailableFrom,
-            AvailableUntil = product.AvailableUntil
+            AvailableUntil = product.AvailableUntil,
+            CreatedAt = product.CreatedAt,
+            CreatedBy = product.CreatedBy,
+            UpdatedAt = product.UpdatedAt,
+            UpdatedBy = product.UpdatedBy
         };
     }
 
@@ -87,6 +101,9 @@ public class ProductService(AppDbContext context) : IProductService
         product.Active = dto.Active;
         product.AvailableFrom = dto.AvailableFrom;
         product.AvailableUntil = dto.AvailableUntil;
+
+        product.UpdatedAt = DateTime.UtcNow;
+        product.UpdatedBy = "System";
 
         await context.SaveChangesAsync();
 
