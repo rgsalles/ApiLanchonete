@@ -1,9 +1,11 @@
 using ApiLanchonete.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace ApiLanchonete.Products;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class ProductController(AppDbContext context) : ControllerBase

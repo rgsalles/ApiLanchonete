@@ -1,5 +1,4 @@
 using ApiLanchonete.Authentication;
-using ApiLanchonete.Clients;
 using ApiLanchonete.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -22,7 +21,7 @@ builder.Services.Configure<JwtOptions>(
 
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<JwtService>();
-builder.Services.AddScoped<IPasswordHasher<Client>, PasswordHasher<Client>>();
+builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 
 var jwt = builder.Configuration.GetSection("Jwt").Get<JwtOptions>()
     ?? throw new InvalidOperationException("Configuração JWT não encontrada.");
@@ -41,11 +40,15 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidAudience = jwt.Audience,
 
             IssuerSigningKey = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(jwt.Key))
+                Encoding.UTF8.GetBytes(jwt.Key)),
+
+            ClockSkew = TimeSpan.Zero
         };
     });
 
 builder.Services.AddAuthorization();
+
+
 
 var app = builder.Build();
 
