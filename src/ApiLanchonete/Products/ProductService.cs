@@ -1,19 +1,14 @@
-using ApiLanchonete.Data;
-using ApiLanchonete.DTOs;
+﻿using ApiLanchonete.Data;
 using ApiLanchonete.Models;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace ApiLanchonete.Controllers;
+namespace ApiLanchonete.Products;
 
-[ApiController]
-[Route("api/[controller]")]
-public class ProductsController(AppDbContext context) : ControllerBase
+public class ProductService(AppDbContext context) : IProductService
 {
-    [HttpGet]
-    public async Task<ActionResult<List<ProductDto>>> GetProducts()
+    public async Task<List<ProductDto>> GetProduct()
     {
-        var products = await context.Products
+        return await context.Products
             .Select(p => new ProductDto
             {
                 Id = p.Id,
@@ -26,19 +21,16 @@ public class ProductsController(AppDbContext context) : ControllerBase
                 AvailableUntil = p.AvailableUntil
             })
             .ToListAsync();
-
-        return Ok(products);
     }
 
-    [HttpGet("{id}")]
-    public async Task<ActionResult<ProductDto>> GetProduct(Guid id)
+    public async Task<ProductDto?> GetProductById(Guid id)
     {
         var product = await context.Products.FindAsync(id);
 
         if (product == null)
-            return NotFound();
+            return null;
 
-        var dto = new ProductDto
+        return new ProductDto
         {
             Id = product.Id,
             Name = product.Name,
@@ -49,12 +41,9 @@ public class ProductsController(AppDbContext context) : ControllerBase
             AvailableFrom = product.AvailableFrom,
             AvailableUntil = product.AvailableUntil
         };
-
-        return Ok(dto);
     }
 
-    [HttpPost]
-    public async Task<ActionResult<ProductDto>> CreateProduct(CreateProductDto dto)
+    public async Task<ProductDto> CreateProduct(CreateProductDto dto)
     {
         var product = new Product
         {
@@ -71,7 +60,7 @@ public class ProductsController(AppDbContext context) : ControllerBase
         context.Products.Add(product);
         await context.SaveChangesAsync();
 
-        var productDto = new ProductDto
+        return new ProductDto
         {
             Id = product.Id,
             Name = product.Name,
@@ -82,17 +71,14 @@ public class ProductsController(AppDbContext context) : ControllerBase
             AvailableFrom = product.AvailableFrom,
             AvailableUntil = product.AvailableUntil
         };
-
-        return CreatedAtAction(nameof(GetProduct), new { id = product.Id }, productDto);
     }
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateProduct(Guid id, UpdateProductDto dto)
+    public async Task<bool> UpdateProduct(Guid id, UpdateProductDto dto)
     {
         var product = await context.Products.FindAsync(id);
 
         if (product == null)
-            return NotFound();
+            return false;
 
         product.Name = dto.Name;
         product.Price = dto.Price;
@@ -104,20 +90,19 @@ public class ProductsController(AppDbContext context) : ControllerBase
 
         await context.SaveChangesAsync();
 
-        return NoContent();
+        return true;
     }
 
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteProduct(Guid id)
+    public async Task<bool> DeleteProduct(Guid id)
     {
         var product = await context.Products.FindAsync(id);
 
         if (product == null)
-            return NotFound();
+            return false;
 
         context.Products.Remove(product);
         await context.SaveChangesAsync();
 
-        return NoContent();
+        return true;
     }
 }

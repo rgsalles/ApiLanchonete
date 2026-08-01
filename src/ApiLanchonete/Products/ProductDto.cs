@@ -1,4 +1,4 @@
-namespace ApiLanchonete.DTOs;
+namespace ApiLanchonete.Products;
 
 public class ProductDto
 {

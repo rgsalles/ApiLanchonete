@@ -1,4 +1,4 @@
-using ApiLanchonete.Models;
+using ApiLanchonete.Products;
 using Microsoft.EntityFrameworkCore;
 
 namespace ApiLanchonete.Data;
