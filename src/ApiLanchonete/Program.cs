@@ -1,4 +1,6 @@
+using ApiLanchonete.Clients;
 using ApiLanchonete.Data;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +12,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<IPasswordHasher<Client>, PasswordHasher<Client>>();
 
 var app = builder.Build();
 

@@ -1,4 +1,5 @@
 using ApiLanchonete.Products;
+using ApiLanchonete.Clients;
 using Microsoft.EntityFrameworkCore;
 
 namespace ApiLanchonete.Data;
@@ -11,4 +12,5 @@ public class AppDbContext : DbContext
     }
 
     public DbSet<Product> Products { get; set; }
+    public DbSet<Client> Clients { get; set; }
 }
