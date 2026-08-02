@@ -14,7 +14,7 @@ namespace ApiLanchonete.Authentication
         [StringLength(255)]
         public required string Email { get; set; }
 
-        public required string PasswordHash { get; set; }
+        public string PasswordHash { get; set; } = string.Empty;
 
         public UserRole Role { get; set; } = UserRole.Customer;
 

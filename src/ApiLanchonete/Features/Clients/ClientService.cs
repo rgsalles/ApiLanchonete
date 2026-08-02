@@ -1,4 +1,5 @@
-﻿using ApiLanchonete.Data;
+﻿using ApiLanchonete.Common.Exceptions;
+using ApiLanchonete.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace ApiLanchonete.Features.Clients;
@@ -7,35 +8,60 @@ public class ClientService(AppDbContext context) : IClientService
 {
     public async Task<List<ClientDto>> GetClients()
     {
-        return await context.Clients
+        var clients = await context.Clients
             .AsNoTracking()
-            .Select(c => new ClientDto
-            {
-                Id = c.Id,
-                Name = c.Name,
-                Address = c.Address,
-                City = c.City,
-                State = c.State,
-                CEP = c.CEP,
-                Country = c.Country,
-                Phone = c.Phone,
-                CreatedAt = c.CreatedAt,
-                CreatedBy = c.CreatedBy,
-                UpdatedAt = c.UpdatedAt,
-                UpdatedBy = c.UpdatedBy
-            })
             .ToListAsync();
+
+        return clients.Select(ToDto).ToList();
     }
 
-    public async Task<ClientDto?> GetClientById(Guid id)
+    public async Task<ClientDto> GetClientById(Guid id)
     {
         var client = await context.Clients
             .AsNoTracking()
             .FirstOrDefaultAsync(c => c.Id == id);
 
-        if (client == null)
-            return null;
+        if (client is null)
+            throw new NotFoundException($"Client with ID {id} not found.");
 
+        return ToDto(client);
+    }
+
+    public async Task UpdateClient(Guid id, UpdateClientDto dto)
+    {
+        var client = await context.Clients.FindAsync(id);
+
+        if (client is null)
+            throw new NotFoundException($"Client with ID {id} not found.");
+
+        client.Name = dto.Name;
+        client.Address = dto.Address;
+        client.City = dto.City;
+        client.State = dto.State;
+        client.CEP = dto.CEP;
+        client.Country = dto.Country;
+        client.Phone = dto.Phone;
+
+        client.UpdatedAt = DateTime.UtcNow;
+        client.UpdatedBy = "System";
+
+        await context.SaveChangesAsync();
+    }
+
+    public async Task DeleteClient(Guid id)
+    {
+        var client = await context.Clients.FindAsync(id);
+
+        if (client is null)
+            throw new NotFoundException($"Client with ID {id} not found.");
+
+        context.Clients.Remove(client);
+
+        await context.SaveChangesAsync();
+    }
+
+    private static ClientDto ToDto(Client client)
+    {
         return new ClientDto
         {
             Id = client.Id,
@@ -51,41 +77,5 @@ public class ClientService(AppDbContext context) : IClientService
             UpdatedAt = client.UpdatedAt,
             UpdatedBy = client.UpdatedBy
         };
-    }
-    public async Task<bool> UpdateClient(Guid id, UpdateClientDto dto)
-    {
-        var client = await context.Clients.FindAsync(id);
-
-        if (client == null)
-            return false;
-
-        client.Name = dto.Name;
-        client.Address = dto.Address;
-        client.City = dto.City;
-        client.State = dto.State;
-        client.CEP = dto.CEP;
-        client.Country = dto.Country;
-        client.Phone = dto.Phone;
-
-        client.UpdatedAt = DateTime.UtcNow;
-        client.UpdatedBy = "System";
-
-        await context.SaveChangesAsync();
-
-        return true;
-    }
-
-    public async Task<bool> DeleteClient(Guid id)
-    {
-        var client = await context.Clients.FindAsync(id);
-
-        if (client == null)
-            return false;
-
-        context.Clients.Remove(client);
-
-        await context.SaveChangesAsync();
-
-        return true;
     }
 }

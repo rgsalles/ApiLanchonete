@@ -1,7 +1,7 @@
 ﻿using ApiLanchonete.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using ApiLanchonete.Clients;
+using ApiLanchonete.Features.Clients;
 
 namespace ApiLanchonete.Authentication;
 
