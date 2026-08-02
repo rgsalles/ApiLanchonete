@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace ApiLanchonete.Products;
+namespace ApiLanchonete.Features.Products;
 
 [Authorize]
 [ApiController]

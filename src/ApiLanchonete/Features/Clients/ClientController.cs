@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 
-namespace ApiLanchonete.Clients
+namespace ApiLanchonete.Features.Clients
 {
     [Authorize]
     public class ClientController

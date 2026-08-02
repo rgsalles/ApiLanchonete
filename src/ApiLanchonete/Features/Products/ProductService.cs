@@ -1,7 +1,7 @@
 ﻿using ApiLanchonete.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace ApiLanchonete.Products;
+namespace ApiLanchonete.Features.Products;
 
 public class ProductService(AppDbContext context) : IProductService
 {

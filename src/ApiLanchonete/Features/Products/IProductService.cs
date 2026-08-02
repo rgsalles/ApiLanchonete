@@ -1,4 +1,4 @@
-﻿namespace ApiLanchonete.Products
+﻿namespace ApiLanchonete.Features.Products
 {
     public interface IProductService
     {

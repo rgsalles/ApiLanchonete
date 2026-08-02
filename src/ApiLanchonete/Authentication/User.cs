@@ -1,4 +1,4 @@
-﻿using ApiLanchonete.Clients;
+﻿using ApiLanchonete.Features.Clients;
 using System.ComponentModel.DataAnnotations;
 
 namespace ApiLanchonete.Authentication

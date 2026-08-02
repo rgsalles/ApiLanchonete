@@ -1,4 +1,4 @@
-﻿namespace ApiLanchonete.Clients
+﻿namespace ApiLanchonete.Features.Clients
 {
     public interface IClientService
     {

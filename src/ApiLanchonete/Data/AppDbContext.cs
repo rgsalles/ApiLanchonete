@@ -1,6 +1,6 @@
 using ApiLanchonete.Authentication;
-using ApiLanchonete.Clients;
-using ApiLanchonete.Products;
+using ApiLanchonete.Features.Clients;
+using ApiLanchonete.Features.Products;
 using Microsoft.EntityFrameworkCore;
 
 namespace ApiLanchonete.Data;

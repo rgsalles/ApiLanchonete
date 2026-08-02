@@ -1,6 +1,6 @@
 ﻿using ApiLanchonete.Authentication;
 
-namespace ApiLanchonete.Clients;
+namespace ApiLanchonete.Features.Clients;
 
 public class Client
 {

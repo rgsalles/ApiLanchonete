@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ApiLanchonete.Clients;
+namespace ApiLanchonete.Features.Clients;
 
 public class ClientDto
 {

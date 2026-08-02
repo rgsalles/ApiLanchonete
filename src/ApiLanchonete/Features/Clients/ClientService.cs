@@ -1,7 +1,7 @@
 ﻿using ApiLanchonete.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace ApiLanchonete.Clients;
+namespace ApiLanchonete.Features.Clients;
 
 public class ClientService(AppDbContext context) : IClientService
 {
