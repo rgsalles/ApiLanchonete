@@ -1,5 +1,6 @@
 ﻿using ApiLanchonete.Data;
 using Microsoft.EntityFrameworkCore;
+using ApiLanchonete.Common.Exceptions;  
 
 namespace ApiLanchonete.Features.Products;
 
@@ -12,7 +13,7 @@ public class ProductService(AppDbContext context) : IProductService
             {
                 Id = p.Id,
                 Name = p.Name,
-                Price = p.Price,
+                Price = p.Price,    
                 Description = p.Description,
                 Image = p.Image,
                 Active = p.Active,
@@ -114,8 +115,8 @@ public class ProductService(AppDbContext context) : IProductService
     {
         var product = await context.Products.FindAsync(id);
 
-        if (product == null)
-            return false;
+        if (product is null)
+            return false; // previously threw NotFoundException
 
         context.Products.Remove(product);
         await context.SaveChangesAsync();

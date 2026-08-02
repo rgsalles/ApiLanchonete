@@ -3,33 +3,45 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ApiLanchonete.Common.Exceptions;
 
-public class GlobalExceptionHandler : IExceptionHandler
+public class GlobalExceptionHandler(
+    ILogger<GlobalExceptionHandler> logger) : IExceptionHandler
 {
-    private readonly ILogger<GlobalExceptionHandler> _logger;
-
-    public GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger)
-    {
-        _logger = logger;
-    }
-
     public async ValueTask<bool> TryHandleAsync(
         HttpContext httpContext,
         Exception exception,
         CancellationToken cancellationToken)
     {
-        _logger.LogError(exception,
-            "An unhandled exception occurred.");
+        logger.LogError(exception, exception.Message);
+
+        var statusCode = exception switch
+        {
+            ValidationException => StatusCodes.Status400BadRequest,
+            UnauthorizedException => StatusCodes.Status401Unauthorized,
+            NotFoundException => StatusCodes.Status404NotFound,
+            ConflictException => StatusCodes.Status409Conflict,
+
+            _ => StatusCodes.Status500InternalServerError
+        };
+
+        var title = exception switch
+        {
+            ValidationException => "Validation failed.",
+            UnauthorizedException => "Unauthorized.",
+            NotFoundException => "Resource not found.",
+            ConflictException => "Conflict.",
+
+            _ => "An unexpected error occurred."
+        };
 
         var problem = new ProblemDetails
         {
-            Title = "An unexpected error occurred.",
+            Status = statusCode,
+            Title = title,
             Detail = exception.Message,
-            Status = StatusCodes.Status500InternalServerError,
             Instance = httpContext.Request.Path
         };
 
-        httpContext.Response.StatusCode = problem.Status.Value;
-        httpContext.Response.ContentType = "application/problem+json";
+        httpContext.Response.StatusCode = statusCode;
 
         await httpContext.Response.WriteAsJsonAsync(
             problem,
