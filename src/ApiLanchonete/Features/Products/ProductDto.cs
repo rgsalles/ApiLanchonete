@@ -5,10 +5,10 @@ public class ProductDto
     public Guid Id { get; set; }
     public required string Name { get; set; }
     public decimal Price { get; set; }
-    public required string Description { get; set; }
-    public required string Image { get; set; }
+    public string? Description { get; set; }
+    public string? Image { get; set; }
     public bool Active { get; set; }
-    public DateTime? AvailableFrom { get; set; }
+    public DateTime AvailableFrom { get; set; }
     public DateTime? AvailableUntil { get; set; }
     public DateTime CreatedAt { get; set; }
     public string? CreatedBy { get; set; }
@@ -20,9 +20,9 @@ public class CreateProductDto
 {
     public required string Name { get; set; }
     public decimal Price { get; set; }
-    public required string Description { get; set; }
-    public required string Image { get; set; }
-    public DateTime? AvailableFrom { get; set; }
+    public string? Description { get; set; }
+    public string? Image { get; set; }
+    public DateTime AvailableFrom { get; set; }
     public DateTime? AvailableUntil { get; set; }
 }
 
@@ -31,8 +31,8 @@ public class UpdateProductDto
     public required string Name { get; set; }
     public decimal Price { get; set; }
     public bool Active { get; set; }
-    public required string Description { get; set; }
-    public required string Image { get; set; }
-    public DateTime? AvailableFrom { get; set; }
+    public string? Description { get; set; }
+    public string? Image { get; set; }
+    public DateTime AvailableFrom { get; set; }
     public DateTime? AvailableUntil { get; set; }
 }
