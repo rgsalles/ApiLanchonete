@@ -16,6 +16,7 @@ public class GlobalExceptionHandler(
         var statusCode = exception switch
         {
             ValidationException => StatusCodes.Status400BadRequest,
+            BadRequestException => StatusCodes.Status400BadRequest,
             UnauthorizedException => StatusCodes.Status401Unauthorized,
             NotFoundException => StatusCodes.Status404NotFound,
             ConflictException => StatusCodes.Status409Conflict,
@@ -26,6 +27,7 @@ public class GlobalExceptionHandler(
         var title = exception switch
         {
             ValidationException => "Validation failed.",
+            BadRequestException => "Bad request.",
             UnauthorizedException => "Unauthorized.",
             NotFoundException => "Resource not found.",
             ConflictException => "Conflict.",
