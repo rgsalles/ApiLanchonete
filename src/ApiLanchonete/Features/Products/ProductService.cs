@@ -1,54 +1,26 @@
-﻿using ApiLanchonete.Data;
+﻿using ApiLanchonete.Common.Exceptions;
+using ApiLanchonete.Data;
 using Microsoft.EntityFrameworkCore;
-using ApiLanchonete.Common.Exceptions;  
 
 namespace ApiLanchonete.Features.Products;
 
 public class ProductService(AppDbContext context) : IProductService
 {
-    public async Task<List<ProductDto>> GetProduct()
+    public async Task<List<ProductDto>> GetProducts()
     {
-        return await context.Products
-            .Select(p => new ProductDto
-            {
-                Id = p.Id,
-                Name = p.Name,
-                Price = p.Price,    
-                Description = p.Description,
-                Image = p.Image,
-                Active = p.Active,
-                AvailableFrom = p.AvailableFrom,
-                AvailableUntil = p.AvailableUntil,
-                CreatedAt = p.CreatedAt,
-                CreatedBy = p.CreatedBy,
-                UpdatedAt = p.UpdatedAt,
-                UpdatedBy = p.UpdatedBy
-            })
-            .ToListAsync();
+        var products = await context.Products.ToListAsync();
+
+        return products.Select(ToDto).ToList();
     }
 
-    public async Task<ProductDto?> GetProductById(Guid id)
+    public async Task<ProductDto> GetProductById(Guid id)
     {
         var product = await context.Products.FindAsync(id);
 
-        if (product == null)
-            return null;
+        if (product is null)
+            throw new NotFoundException($"Product with ID {id} not found.");
 
-        return new ProductDto
-        {
-            Id = product.Id,
-            Name = product.Name,
-            Price = product.Price,
-            Description = product.Description,
-            Image = product.Image,
-            Active = product.Active,
-            AvailableFrom = product.AvailableFrom,
-            AvailableUntil = product.AvailableUntil,
-            CreatedAt = product.CreatedAt,
-            CreatedBy = product.CreatedBy,
-            UpdatedAt = product.UpdatedAt,
-            UpdatedBy = product.UpdatedBy
-        };
+        return ToDto(product);
     }
 
     public async Task<ProductDto> CreateProduct(CreateProductDto dto)
@@ -69,8 +41,47 @@ public class ProductService(AppDbContext context) : IProductService
         };
 
         context.Products.Add(product);
+
         await context.SaveChangesAsync();
 
+        return ToDto(product);
+    }
+
+    public async Task UpdateProduct(Guid id, UpdateProductDto dto)
+    {
+        var product = await context.Products.FindAsync(id);
+
+        if (product is null)
+            throw new NotFoundException($"Product with ID {id} not found.");
+
+        product.Name = dto.Name;
+        product.Price = dto.Price;
+        product.Description = dto.Description;
+        product.Image = dto.Image;
+        product.Active = dto.Active;
+        product.AvailableFrom = dto.AvailableFrom;
+        product.AvailableUntil = dto.AvailableUntil;
+
+        product.UpdatedAt = DateTime.UtcNow;
+        product.UpdatedBy = "System";
+
+        await context.SaveChangesAsync();
+    }
+
+    public async Task DeleteProduct(Guid id)
+    {
+        var product = await context.Products.FindAsync(id);
+
+        if (product is null)
+            throw new NotFoundException($"Product with ID {id} not found.");
+
+        context.Products.Remove(product);
+
+        await context.SaveChangesAsync();
+    }
+
+    private static ProductDto ToDto(Product product)
+    {
         return new ProductDto
         {
             Id = product.Id,
@@ -86,41 +97,5 @@ public class ProductService(AppDbContext context) : IProductService
             UpdatedAt = product.UpdatedAt,
             UpdatedBy = product.UpdatedBy
         };
-    }
-
-    public async Task<bool> UpdateProduct(Guid id, UpdateProductDto dto)
-    {
-        var product = await context.Products.FindAsync(id);
-
-        if (product == null)
-            return false;
-
-        product.Name = dto.Name;
-        product.Price = dto.Price;
-        product.Description = dto.Description;
-        product.Image = dto.Image;
-        product.Active = dto.Active;
-        product.AvailableFrom = dto.AvailableFrom;
-        product.AvailableUntil = dto.AvailableUntil;
-
-        product.UpdatedAt = DateTime.UtcNow;
-        product.UpdatedBy = "System";
-
-        await context.SaveChangesAsync();
-
-        return true;
-    }
-
-    public async Task<bool> DeleteProduct(Guid id)
-    {
-        var product = await context.Products.FindAsync(id);
-
-        if (product is null)
-            return false; // previously threw NotFoundException
-
-        context.Products.Remove(product);
-        await context.SaveChangesAsync();
-
-        return true;
     }
 }
