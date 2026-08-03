@@ -13,6 +13,7 @@ public class BranchDto
     public string CEP { get; set; } = string.Empty;
     public string Country { get; set; } = string.Empty;
     public string Phone { get; set; } = string.Empty;
+    public string Email { get; set; } = string.Empty;
     public bool Active { get; set; }
     public DateTime CreatedAt { get; set; }
     public string? CreatedBy { get; set; }
@@ -52,6 +53,11 @@ public class CreateBranchDto
     [Required]
     [StringLength(20)]
     public string Phone { get; set; } = string.Empty;
+
+    [Required]
+    [EmailAddress]
+    [StringLength(255)]
+    public string Email { get; set; } = string.Empty;
 }
 
 public class UpdateBranchDto
@@ -83,4 +89,11 @@ public class UpdateBranchDto
     [Required]
     [StringLength(20)]
     public string Phone { get; set; } = string.Empty;
+
+    [Required]
+    [EmailAddress]
+    [StringLength(255)]
+    public string Email { get; set; } = string.Empty;
+
+    public bool Active { get; set; }
 }

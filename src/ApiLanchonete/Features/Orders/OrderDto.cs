@@ -5,6 +5,7 @@ namespace ApiLanchonete.Features.Orders;
 public class OrderDto
 {
     public Guid Id { get; set; }
+    public Guid BranchId { get; set; }
     public Guid ClientId { get; set; }
     public OrderStatus Status { get; set; }
     public decimal TotalAmount { get; set; }
@@ -19,6 +20,9 @@ public class CreateOrderDto
 {
     [Required]
     public Guid ClientId { get; set; }
+
+    [Required]
+    public Guid BranchId { get; set; }
 
     [Required]
     [MinLength(1)]

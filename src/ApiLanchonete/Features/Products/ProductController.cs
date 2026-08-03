@@ -2,15 +2,15 @@ using ApiLanchonete.Features.Products;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-[Authorize]
+[Authorize(Roles = "Admin,Staff")]
 [ApiController]
 [Route("api/[controller]")]
 public class ProductController(IProductService service) : ControllerBase
 {
     [HttpGet]
-    public async Task<ActionResult<List<ProductDto>>> GetProducts()
+    public async Task<ActionResult<List<ProductDto>>> GetProducts([FromQuery] Guid? companyId)
     {
-        return Ok(await service.GetProducts());
+        return Ok(await service.GetProducts(companyId));
     }
 
     [HttpGet("{id:guid}")]

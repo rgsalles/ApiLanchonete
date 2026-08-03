@@ -2,7 +2,7 @@
 
 public interface IProductService
 {
-    Task<List<ProductDto>> GetProducts();
+    Task<List<ProductDto>> GetProducts(Guid? companyId = null);
     Task<ProductDto> GetProductById(Guid id);
     Task<ProductDto> CreateProduct(CreateProductDto dto);
     Task UpdateProduct(Guid id, UpdateProductDto dto);

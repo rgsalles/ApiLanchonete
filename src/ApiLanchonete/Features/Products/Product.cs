@@ -1,3 +1,5 @@
+using ApiLanchonete.Features.Companies;
+using InventoryItem = ApiLanchonete.Features.Inventory.Inventory;
 using ApiLanchonete.Features.Orders;
 
 namespace ApiLanchonete.Features.Products;
@@ -5,6 +7,8 @@ namespace ApiLanchonete.Features.Products;
 public class Product
 {
     public Guid Id { get; set; }
+    public Guid CompanyId { get; set; }
+    public Company Company { get; set; } = null!;
     public required string Name { get; set; }
     public decimal Price { get; set; }
     public string? Description { get; set; }
@@ -15,6 +19,7 @@ public class Product
 
     // Orders Relationship
     public ICollection<OrderItem> OrderItems { get; set; } = [];
+    public ICollection<InventoryItem> Inventory { get; set; } = [];
 
     // Audit Fields
     public DateTime CreatedAt { get; set; }

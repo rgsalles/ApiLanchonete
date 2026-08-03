@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ApiLanchonete.Features.Orders;
 
-[Authorize]
+[Authorize(Roles = "Admin,Staff")]
 [ApiController]
 [Route("api/[controller]")]
 public class OrderController(IOrderService orderService) : ControllerBase

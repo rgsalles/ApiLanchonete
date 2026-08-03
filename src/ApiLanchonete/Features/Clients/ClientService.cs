@@ -1,7 +1,6 @@
 ﻿using ApiLanchonete.Common.Exceptions;
 using ApiLanchonete.Data;
 using Microsoft.EntityFrameworkCore;
-
 namespace ApiLanchonete.Features.Clients;
 
 public class ClientService(AppDbContext context) : IClientService

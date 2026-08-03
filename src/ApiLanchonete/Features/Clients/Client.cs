@@ -1,4 +1,5 @@
 ﻿using ApiLanchonete.Authentication;
+using ApiLanchonete.Features.Companies;
 using ApiLanchonete.Features.Orders;
 
 namespace ApiLanchonete.Features.Clients;
@@ -6,6 +7,8 @@ namespace ApiLanchonete.Features.Clients;
 public class Client
 {
     public Guid Id { get; set; }
+    public Guid CompanyId { get; set; }
+    public Company Company { get; set; } = null!;
     public required string Name { get; set; }
     public required string Address { get; set; }
     public required string City { get; set; }

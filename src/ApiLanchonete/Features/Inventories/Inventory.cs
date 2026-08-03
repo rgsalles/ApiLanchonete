@@ -1,6 +1,8 @@
 ﻿using ApiLanchonete.Features.Branches;
 using ApiLanchonete.Features.Products;
 
+namespace ApiLanchonete.Features.Inventory;
+
 public class Inventory
 {
     public Guid Id { get; set; }

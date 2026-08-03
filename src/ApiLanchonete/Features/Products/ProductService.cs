@@ -6,9 +6,14 @@ namespace ApiLanchonete.Features.Products;
 
 public class ProductService(AppDbContext context) : IProductService
 {
-    public async Task<List<ProductDto>> GetProducts()
+    public async Task<List<ProductDto>> GetProducts(Guid? companyId = null)
     {
-        var products = await context.Products.ToListAsync();
+        var query = context.Products.AsNoTracking();
+
+        if (companyId.HasValue)
+            query = query.Where(product => product.CompanyId == companyId.Value);
+
+        var products = await query.ToListAsync();
 
         return products.Select(ToDto).ToList();
     }
@@ -25,9 +30,15 @@ public class ProductService(AppDbContext context) : IProductService
 
     public async Task<ProductDto> CreateProduct(CreateProductDto dto)
     {
+        var companyExists = await context.Companies.AnyAsync(company => company.Id == dto.CompanyId);
+
+        if (!companyExists)
+            throw new NotFoundException($"Company with ID {dto.CompanyId} not found.");
+
         var product = new Product
         {
             Id = Guid.NewGuid(),
+            CompanyId = dto.CompanyId,
             Name = dto.Name,
             Price = dto.Price,
             Description = dto.Description,
@@ -85,6 +96,7 @@ public class ProductService(AppDbContext context) : IProductService
         return new ProductDto
         {
             Id = product.Id,
+            CompanyId = product.CompanyId,
             Name = product.Name,
             Price = product.Price,
             Description = product.Description,

@@ -46,6 +46,10 @@ public class AuthService(
         if (exists)
             return null;
 
+        var companyExists = await context.Companies.AnyAsync(company => company.Id == dto.CompanyId);
+        if (!companyExists)
+            return null;
+
         var user = new User
         {
             Id = Guid.NewGuid(),
@@ -61,6 +65,7 @@ public class AuthService(
         var client = new Client
         {
             Id = Guid.NewGuid(),
+            CompanyId = dto.CompanyId,
             UserId = user.Id,
 
             Name = dto.Name,

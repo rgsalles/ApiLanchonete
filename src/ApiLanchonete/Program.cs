@@ -1,6 +1,11 @@
 using ApiLanchonete.Authentication;
 using ApiLanchonete.Common.Exceptions;
 using ApiLanchonete.Data;
+using ApiLanchonete.Features.Branches;
+using ApiLanchonete.Features.Companies;
+using ApiLanchonete.Features.Inventory;
+using ApiLanchonete.Features.Products;
+using ApiLanchonete.Features.Payments;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -23,6 +28,11 @@ builder.Services.Configure<JwtOptions>(
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<JwtService>();
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IInventoryService, InventoryService>();
+builder.Services.AddScoped<ICompanyService, CompanyService>();
+builder.Services.AddScoped<IBranchService, BranchService>();
+builder.Services.AddScoped<IPaymentService, PaymentService>();
 
 builder.Services.AddHealthChecks();
 

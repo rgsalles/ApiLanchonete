@@ -1,8 +1,11 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace ApiLanchonete.Features.Products;
 
 public class ProductDto
 {
     public Guid Id { get; set; }
+    public Guid CompanyId { get; set; }
     public required string Name { get; set; }
     public decimal Price { get; set; }
     public string? Description { get; set; }
@@ -18,6 +21,9 @@ public class ProductDto
 
 public class CreateProductDto
 {
+    [Required]
+    public Guid CompanyId { get; set; }
+
     public required string Name { get; set; }
     public decimal Price { get; set; }
     public string? Description { get; set; }
