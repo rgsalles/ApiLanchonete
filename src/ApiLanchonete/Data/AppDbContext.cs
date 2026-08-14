@@ -28,17 +28,6 @@ public class AppDbContext : DbContext
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
 
-        modelBuilder.Entity<Payment>()
-            .Property(payment => payment.Amount)
-            .HasPrecision(10, 2);
-
-        modelBuilder.Entity<Payment>()
-            .HasOne(payment => payment.Order)
-            .WithOne(order => order.Payment)
-            .HasForeignKey<Payment>(payment => payment.OrderId)
-            .OnDelete(DeleteBehavior.Restrict);
-
-
         base.OnModelCreating(modelBuilder);
     }
 }
