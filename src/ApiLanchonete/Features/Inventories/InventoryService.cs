@@ -12,7 +12,7 @@ public class InventoryService(AppDbContext context) : IInventoryService
             .Include(i => i.Branch)
             .Include(i => i.Product)
             .AsNoTracking();
-
+    
         if (branchId.HasValue)
             query = query.Where(inventory => inventory.BranchId == branchId.Value);
 
