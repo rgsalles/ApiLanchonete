@@ -26,6 +26,8 @@ public class AppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
+
         modelBuilder.Entity<Product>()
             .Property(p => p.Price)
             .HasPrecision(10, 2);
@@ -47,31 +49,9 @@ public class AppDbContext : DbContext
             .WithOne(u => u.Client)
             .HasForeignKey<Client>(c => c.UserId);
 
-        modelBuilder.Entity<Company>()
-            .HasMany(c => c.Branches)
-            .WithOne(b => b.Company)
-            .HasForeignKey(b => b.CompanyId)
-            .OnDelete(DeleteBehavior.Restrict);
-
-        modelBuilder.Entity<Company>()
-            .HasIndex(c => c.Cnpj)
-            .IsUnique();
-
         modelBuilder.Entity<Branch>()
             .HasIndex(b => new { b.CompanyId, b.Name })
             .IsUnique();
-
-        modelBuilder.Entity<Company>()
-            .HasMany(c => c.Products)
-            .WithOne(p => p.Company)
-            .HasForeignKey(p => p.CompanyId)
-            .OnDelete(DeleteBehavior.Restrict);
-
-        modelBuilder.Entity<Company>()
-            .HasMany(c => c.Clients)
-            .WithOne(c => c.Company)
-            .HasForeignKey(c => c.CompanyId)
-            .OnDelete(DeleteBehavior.Restrict);
 
         modelBuilder.Entity<Order>()
             .HasOne(o => o.Client)
