@@ -28,15 +28,6 @@ public class AppDbContext : DbContext
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
 
-        modelBuilder.Entity<Client>()
-            .HasOne(c => c.User)
-            .WithOne(u => u.Client)
-            .HasForeignKey<Client>(c => c.UserId);
-
-        modelBuilder.Entity<Branch>()
-            .HasIndex(b => new { b.CompanyId, b.Name })
-            .IsUnique();
-
         modelBuilder.Entity<Payment>()
             .Property(payment => payment.Amount)
             .HasPrecision(10, 2);
