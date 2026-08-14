@@ -15,5 +15,5 @@ public class Payment
     public DateTime? UpdatedAt { get; set; }
 }
 
-public enum PaymentMethod { Cash = 1, Pix = 2, CreditCard = 3, DebitCard = 4 }
+public enum PaymentMethod { Cash = 1, Pix = 2, CreditCard = 3, DebitCard = 4, Vouncher = 5}
 public enum PaymentStatus { Pending = 1, Paid = 2, Refunded = 3, Cancelled = 4 }
