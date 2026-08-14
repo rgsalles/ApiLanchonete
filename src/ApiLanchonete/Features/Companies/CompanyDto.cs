@@ -6,7 +6,6 @@ public class CompanyDto
 {
     public Guid Id { get; set; }
     public string Name { get; set; } = string.Empty;
-    [StringLength(18, MinimumLength = 18, ErrorMessage = "CNPJ must be exactly 18 characters.")]
     public string Cnpj { get; set; } = string.Empty;
     public DateTime CreatedAt { get; set; }
     public string? CreatedBy { get; set; }
