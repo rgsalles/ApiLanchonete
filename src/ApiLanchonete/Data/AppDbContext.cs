@@ -28,9 +28,6 @@ public class AppDbContext : DbContext
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
 
-        modelBuilder.Entity<Product>()
-            .Property(p => p.Price)
-            .HasPrecision(10, 2);
 
         modelBuilder.Entity<Order>()
             .Property(o => o.TotalAmount)
@@ -83,19 +80,6 @@ public class AppDbContext : DbContext
             .HasForeignKey<Payment>(payment => payment.OrderId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        modelBuilder.Entity<Inventory>()
-            .HasOne(i => i.Branch)
-            .WithMany(b => b.Inventory)
-            .HasForeignKey(i => i.BranchId);
-
-        modelBuilder.Entity<Inventory>()
-            .HasOne(i => i.Product)
-            .WithMany(p => p.Inventory)
-            .HasForeignKey(i => i.ProductId);
-
-        modelBuilder.Entity<Inventory>()
-            .HasIndex(i => new { i.BranchId, i.ProductId })
-            .IsUnique();
 
         base.OnModelCreating(modelBuilder);
     }
