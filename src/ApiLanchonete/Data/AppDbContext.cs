@@ -28,19 +28,6 @@ public class AppDbContext : DbContext
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
 
-
-        modelBuilder.Entity<Order>()
-            .Property(o => o.TotalAmount)
-            .HasPrecision(10, 2);
-
-        modelBuilder.Entity<OrderItem>()
-            .Property(i => i.UnitPrice)
-            .HasPrecision(10, 2);
-
-        modelBuilder.Entity<OrderItem>()
-            .Property(i => i.TotalPrice)
-            .HasPrecision(10, 2);
-
         modelBuilder.Entity<Client>()
             .HasOne(c => c.User)
             .WithOne(u => u.Client)
@@ -49,26 +36,6 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Branch>()
             .HasIndex(b => new { b.CompanyId, b.Name })
             .IsUnique();
-
-        modelBuilder.Entity<Order>()
-            .HasOne(o => o.Client)
-            .WithMany(c => c.Orders)
-            .HasForeignKey(o => o.ClientId);
-
-        modelBuilder.Entity<Order>()
-            .HasOne(o => o.Branch)
-            .WithMany(b => b.Orders)
-            .HasForeignKey(o => o.BranchId);
-
-        modelBuilder.Entity<OrderItem>()
-            .HasOne(i => i.Order)
-            .WithMany(o => o.Items)
-            .HasForeignKey(i => i.OrderId);
-
-        modelBuilder.Entity<OrderItem>()
-            .HasOne(i => i.Product)
-            .WithMany(p => p.OrderItems)
-            .HasForeignKey(i => i.ProductId);
 
         modelBuilder.Entity<Payment>()
             .Property(payment => payment.Amount)
