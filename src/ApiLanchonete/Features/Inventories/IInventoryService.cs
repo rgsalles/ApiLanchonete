@@ -1,4 +1,4 @@
-﻿namespace ApiLanchonete.Features.Inventory;
+﻿namespace ApiLanchonete.Features.Inventories;
 
 public interface IInventoryService
 {

@@ -1,7 +1,7 @@
 ﻿using ApiLanchonete.Features.Branches;
 using ApiLanchonete.Features.Products;
 
-namespace ApiLanchonete.Features.Inventory;
+namespace ApiLanchonete.Features.Inventories;
 
 public class Inventory
 {

@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ApiLanchonete.Features.Inventory;
+namespace ApiLanchonete.Features.Inventories;
 
 [Authorize(Roles = "Admin,Staff")]
 [ApiController]

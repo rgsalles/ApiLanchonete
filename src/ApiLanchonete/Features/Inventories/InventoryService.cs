@@ -2,7 +2,7 @@
 using ApiLanchonete.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace ApiLanchonete.Features.Inventory;
+namespace ApiLanchonete.Features.Inventories;
 
 public class InventoryService(AppDbContext context) : IInventoryService
 {

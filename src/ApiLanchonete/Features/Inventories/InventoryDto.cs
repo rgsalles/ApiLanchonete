@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ApiLanchonete.Features.Inventory;
+namespace ApiLanchonete.Features.Inventories;
 
 public class InventoryDto
 {
