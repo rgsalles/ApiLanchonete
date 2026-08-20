@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ApiLanchonete.Features.Inventories;
+namespace ApiLanchonete.Features.Warehouses;
 
-public class InventoryDto
+public class WarehouseDto
 {
     public Guid Id { get; set; }
     public Guid BranchId { get; set; }
@@ -18,7 +18,7 @@ public class InventoryDto
     public string? UpdatedBy { get; set; }
 }
 
-public class CreateInventoryDto
+public class CreateWarehouseDto
 {
     [Required]
     public Guid BranchId { get; set; }
@@ -33,7 +33,7 @@ public class CreateInventoryDto
     public int MinimumQuantity { get; set; }
 }
 
-public class UpdateInventoryDto
+public class UpdateWarehouseDto
 {
     [Range(0, int.MaxValue)]
     public int Quantity { get; set; }

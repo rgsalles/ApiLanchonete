@@ -1,6 +1,6 @@
 ﻿using ApiLanchonete.Features.Orders;
 using ApiLanchonete.Features.Companies;
-using InventoryItem = ApiLanchonete.Features.Inventory.Inventory;
+using WarehouseItem = ApiLanchonete.Features.Warehouses.Warehouse;
 
 namespace ApiLanchonete.Features.Branches;
 
@@ -23,7 +23,7 @@ public class Branch
     // Relationships
     public Company Company { get; set; } = null!;
     public ICollection<Order> Orders { get; set; } = [];
-    public ICollection<InventoryItem> Inventory { get; set; } = [];
+    public ICollection<WarehouseItem> Warehouses { get; set; } = [];
 
     // Audit Fields
     public DateTime CreatedAt { get; set; }

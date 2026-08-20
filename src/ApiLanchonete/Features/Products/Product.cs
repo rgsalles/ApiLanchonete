@@ -1,5 +1,5 @@
 using ApiLanchonete.Features.Companies;
-using InventoryItem = ApiLanchonete.Features.Inventory.Inventory;
+using WarehouseItem = ApiLanchonete.Features.Warehouses.Warehouse;
 using ApiLanchonete.Features.Orders;
 
 namespace ApiLanchonete.Features.Products;
@@ -19,7 +19,7 @@ public class Product
 
     // Orders Relationship
     public ICollection<OrderItem> OrderItems { get; set; } = [];
-    public ICollection<InventoryItem> Inventory { get; set; } = [];
+    public ICollection<WarehouseItem> Warehouses { get; set; } = [];
 
     // Audit Fields
     public DateTime CreatedAt { get; set; }

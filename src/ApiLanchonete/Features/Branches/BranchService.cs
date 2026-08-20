@@ -88,11 +88,11 @@ public class BranchService(AppDbContext context) : IBranchService
         var branch = await context.Branches.FindAsync(id)
             ?? throw new NotFoundException($"Branch with ID {id} not found.");
 
-        var hasDependents = await context.Inventories.AnyAsync(inventory => inventory.BranchId == id)
+        var hasDependents = await context.Warehouses.AnyAsync(warehouse => warehouse.BranchId == id)
             || await context.Orders.AnyAsync(order => order.BranchId == id);
 
         if (hasDependents)
-            throw new ConflictException("A branch with inventory or orders cannot be deleted.");
+            throw new ConflictException("A branch with warehouse stock or orders cannot be deleted.");
 
         context.Branches.Remove(branch);
         await context.SaveChangesAsync();

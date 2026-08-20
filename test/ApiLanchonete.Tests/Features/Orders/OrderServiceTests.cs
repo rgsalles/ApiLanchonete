@@ -3,9 +3,9 @@ using ApiLanchonete.Data;
 using ApiLanchonete.Features.Branches;
 using ApiLanchonete.Features.Clients;
 using ApiLanchonete.Features.Companies;
-using ApiLanchonete.Features.Inventory;
 using ApiLanchonete.Features.Orders;
 using ApiLanchonete.Features.Products;
+using ApiLanchonete.Features.Warehouses;
 using Microsoft.EntityFrameworkCore;
 
 namespace ApiLanchonete.Tests.Features.Orders;
@@ -28,7 +28,7 @@ public class OrderServiceTests
 
         Assert.Equal(data.Branch.Id, order.BranchId);
         Assert.Equal(30m, order.TotalAmount);
-        Assert.Equal(7, await context.Inventories.Where(i => i.Id == data.Inventory.Id).Select(i => i.Quantity)
+        Assert.Equal(7, await context.Warehouses.Where(w => w.Id == data.Warehouse.Id).Select(w => w.Quantity)
             .SingleAsync(TestContext.Current.CancellationToken));
     }
 
@@ -64,7 +64,7 @@ public class OrderServiceTests
 
         await service.UpdateOrder(order.Id, new UpdateOrderDto { Status = OrderStatus.Cancelled });
 
-        Assert.Equal(10, await context.Inventories.Where(i => i.Id == data.Inventory.Id).Select(i => i.Quantity)
+        Assert.Equal(10, await context.Warehouses.Where(w => w.Id == data.Warehouse.Id).Select(w => w.Quantity)
             .SingleAsync(TestContext.Current.CancellationToken));
         Assert.False(await context.Orders.Where(o => o.Id == order.Id).Select(o => o.StockReserved)
             .SingleAsync(TestContext.Current.CancellationToken));
@@ -102,7 +102,7 @@ public class OrderServiceTests
         return new AppDbContext(options);
     }
 
-    private static async Task<(Branch Branch, Client Client, Product Product, Inventory Inventory)> SeedOrderScenario(
+    private static async Task<(Branch Branch, Client Client, Product Product, Warehouse Warehouse)> SeedOrderScenario(
         AppDbContext context,
         int quantity)
     {
@@ -118,13 +118,13 @@ public class OrderServiceTests
             Id = Guid.NewGuid(), CompanyId = company.Id, Name = "X-Burger", Price = 10m, Active = true,
             AvailableFrom = DateTime.UtcNow.AddDays(-1)
         };
-        var inventory = new Inventory
+        var warehouse = new Warehouse
         {
             Id = Guid.NewGuid(), BranchId = branch.Id, ProductId = product.Id, Quantity = quantity, MinimumQuantity = 1, Active = true
         };
 
-        context.AddRange(company, branch, client, product, inventory);
+        context.AddRange(company, branch, client, product, warehouse);
         await context.SaveChangesAsync();
-        return (branch, client, product, inventory);
+        return (branch, client, product, warehouse);
     }
 }
