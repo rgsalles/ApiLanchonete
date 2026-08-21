@@ -1,5 +1,4 @@
 ﻿using ApiLanchonete.Features.Branches;
-using ApiLanchonete.Features.Products;
 
 namespace ApiLanchonete.Features.Warehouses;
 
@@ -10,12 +9,12 @@ public class Warehouse
     public Guid BranchId { get; set; }
     public Branch Branch { get; set; } = null!;
 
-    public Guid ProductId { get; set; }
-    public Product Product { get; set; } = null!;
+    public string Code { get; set; } = null!;
+    public string Name { get; set; } = null!;
 
-    public int Quantity { get; set; }
-    public int MinimumQuantity { get; set; }
     public bool Active { get; set; } = true;
+
+    public ICollection<WarehouseItem> Items { get; set; } = [];
 
     public DateTime CreatedAt { get; set; }
     public string? CreatedBy { get; set; }
